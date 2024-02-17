@@ -10,7 +10,8 @@ import com.trendzio.get_products_list_feature.presentation.manager.calculateOrig
 import com.trendzio.network.modles.GetProductsListResponse
 
 class ProductAdapter (
-    private val productList: List<GetProductsListResponse.Product>
+    private val productList: List<GetProductsListResponse.Product>,
+    val onClick: (GetProductsListResponse.Product) -> Unit
 ): RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,11 +33,15 @@ class ProductAdapter (
             with(product) {
                 binding.productName.text = title.toString()
                 binding.ratingValue.text = rating.toString()
-                binding.pricingValue.text = "₹${price.toString()}"
+                binding.pricingValue.text = "₹${price.toString()}/-"
                 binding.discountedValue.text = "(${discountPercentage.toString()}% off)"
                 binding.mrpValue.text =
                     "₹${calculateOriginalPrice(price?.toDouble(), discountPercentage)}"
                 binding.productIcon.load(images?.get(0))
+
+                binding.cardContainer.setOnClickListener {
+                    onClick(this@with)
+                }
             }
         }
     }

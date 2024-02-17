@@ -1,33 +1,27 @@
 package com.trendzio.get_product_by_id_feature.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.trendzio.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import coil.load
+import com.trendzio.databinding.FragmentProductDetailsBinding
+import com.trendzio.get_product_by_id_feature.presentation.adapter.ProductImageAdapter
+import com.trendzio.get_product_by_id_feature.presentation.viewmodel.ProductDetailViewModel
+import com.trendzio.get_products_list_feature.presentation.fragments.ProductListFragment.Companion.PRODUCT_ID
+import com.trendzio.network.modles.GetProductByIdResponse
+import com.trendzio.utils.NetworkResult
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProductDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private lateinit var binding: FragmentProductDetailsBinding
+    private val productDetailViewModel: ProductDetailViewModel by activityViewModels()
+    private lateinit var productImageAdapter : ProductImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -35,26 +29,63 @@ class ProductDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_details, container, false)
+        binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpObservers()
+        getProductIdFromArgument()
+    }
+
+    private fun getProductIdFromArgument() {
+        arguments?.getInt(PRODUCT_ID)?.let {
+            productDetailViewModel.getProductIdFromProductListFragment(it)
+        }
+    }
+
+    private fun setUpObservers() {
+        productDetailViewModel.productDetail.observe(viewLifecycleOwner) {
+            when (it) {
+                is NetworkResult.Loading -> {}
+                is NetworkResult.Success -> {
+                    it.data?.body()?.let { data ->
+                        setupUi(data)
+                    }
+
                 }
+
+                is NetworkResult.Error -> {}
             }
+        }
+    }
+
+    private fun setupUi(data: GetProductByIdResponse) {
+        with(binding) {
+            thumbnailImage.load(data.thumbnail)
+            productName.text = data.title
+            productDescription.text = data.description
+            productPrice.text = "₹${data.price}/-"
+            productDiscountPercentage.text = "(${data.discountPercentage}%)"
+            ratingValue.text = data.rating.toString()
+            productBrandValue.text = data.brand
+            productCategoryValue.text = data.category
+
+            setupProductImagesRecyclerView(data.images)
+        }
+    }
+
+    private fun setupProductImagesRecyclerView(images: List<String?>?) {
+        images?.let {imagesList ->
+            productImageAdapter = ProductImageAdapter(imagesList.filterNotNull())
+            binding.productImagesRecyclerView.adapter = productImageAdapter
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        productDetailViewModel.getProductDetailById()
     }
 }

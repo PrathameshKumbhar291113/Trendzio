@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.trendzio.R
 import com.trendzio.databinding.FragmentProductListBinding
 import com.trendzio.get_products_list_feature.presentation.adapter.ProductAdapter
 import com.trendzio.get_products_list_feature.presentation.viewmodel.ProductListViewModel
@@ -19,6 +21,11 @@ class ProductListFragment : Fragment() {
     private lateinit var binding: FragmentProductListBinding
     private val productListViewModel: ProductListViewModel by activityViewModels()
     private lateinit var productAdapter: ProductAdapter
+
+    companion object {
+        const val PRODUCT_ID = "product_id"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,9 +71,18 @@ class ProductListFragment : Fragment() {
 
     private fun setupRecyclerView(data: List<GetProductsListResponse.Product?>) {
 
-        productAdapter = ProductAdapter(data.filterNotNull())
+        productAdapter = ProductAdapter(data.filterNotNull(), this::onClick)
         binding.productsListRecyclerView.adapter = productAdapter
 
+    }
+
+    private fun onClick(data: GetProductsListResponse.Product) {
+        val productIdBundle: Bundle = Bundle().apply {
+            data.id?.let {productId ->
+                putInt(PRODUCT_ID, productId)
+            }
+        }
+        findNavController().navigate(R.id.productDetailsFragment, productIdBundle)
     }
 
 }
