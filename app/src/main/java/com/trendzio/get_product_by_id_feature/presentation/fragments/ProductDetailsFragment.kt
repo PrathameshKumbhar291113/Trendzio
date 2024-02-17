@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
@@ -22,7 +23,6 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var productImageAdapter : ProductImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -31,7 +31,9 @@ class ProductDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
+        binding.progressBar.isVisible = true
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,8 +52,13 @@ class ProductDetailsFragment : Fragment() {
     private fun setUpObservers() {
         productDetailViewModel.productDetail.observe(viewLifecycleOwner) {
             when (it) {
-                is NetworkResult.Loading -> {}
+                is NetworkResult.Loading -> {
+                    binding.scrollView.isVisible = false
+                }
                 is NetworkResult.Success -> {
+                    binding.progressBar.isVisible = false
+                    binding.scrollView.isVisible = true
+
                     it.data?.body()?.let { data ->
                         setupUi(data)
                     }
@@ -59,6 +66,8 @@ class ProductDetailsFragment : Fragment() {
                 }
 
                 is NetworkResult.Error -> {
+                    binding.progressBar.isVisible = false
+                    binding.scrollView.isVisible = true
                     Toast.makeText(requireContext(), it.data?.errorBody().toString(), Toast.LENGTH_SHORT).show()
                 }
             }

@@ -6,10 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".get_products_list_feature.presentation.fragments.ProductListFragment">
 
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cpb_background_progressbar_color="@color/white"
+        app:cpb_background_progressbar_width="10dp"
+        app:cpb_indeterminate_mode="true"
+        app:cpb_progressbar_color_direction="top_to_bottom"
+        app:cpb_progressbar_color_end="@color/white"
+        app:cpb_progressbar_color_start="@color/primary_blue"
+        app:cpb_progressbar_width="10dp"
+        app:cpb_round_border="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsListRecyclerView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:listitem="@layout/item_product_card"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"

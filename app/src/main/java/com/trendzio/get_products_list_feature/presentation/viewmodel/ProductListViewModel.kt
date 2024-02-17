@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.trendzio.get_products_list_feature.domain.use_case.ProductsListUseCase
 import com.trendzio.network.modles.GetProductsListResponse
 import com.trendzio.utils.NetworkResult
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,7 +25,7 @@ class ProductListViewModel @Inject constructor(
         getProductsList()
     }
 
-    private fun getProductsList(){
+    fun getProductsList(){
         productsListUseCase().onEach {
             when (it) {
                 is NetworkResult.Loading -> {}

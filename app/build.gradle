@@ -107,4 +107,7 @@ dependencies {
     kapt 'com.android.databinding:compiler:3.1.4'
 
     implementation "com.louiscad.splitties:splitties-fun-pack-android-material-components:3.0.0"
+
+    //Implementing a circular progressbar dependency
+    implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
 }
