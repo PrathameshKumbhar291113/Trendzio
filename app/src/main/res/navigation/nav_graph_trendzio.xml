@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph_trendzio">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_trendzio"
+    app:startDestination="@id/productListFragment">
 
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.trendzio.get_products_list_feature.presentation.fragments.ProductListFragment"
+        android:label="fragment_product_list"
+        tools:layout="@layout/fragment_product_list" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.trendzio.get_product_by_id_feature.presentation.fragments.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" />
 </navigation>

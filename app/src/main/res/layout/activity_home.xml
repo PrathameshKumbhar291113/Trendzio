@@ -6,4 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_blue"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/fragmentContainerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/toolBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="serif-monospace"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivAppLogo"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAppLogo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:tint="@color/white"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/toolBarTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/toolBarTitle"
+            app:layout_constraintTop_toTopOf="@id/toolBarTitle"
+            app:srcCompat="@drawable/iv_woman" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintVertical_bias="0.0"
+        app:navGraph="@navigation/nav_graph_trendzio"
+        tools:layout="@layout/fragment_product_list" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
