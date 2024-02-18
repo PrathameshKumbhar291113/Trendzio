@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.trendzio.databinding.FragmentProductDetailsBinding
 import com.trendzio.get_product_by_id_feature.presentation.adapter.ProductImageAdapter
@@ -28,7 +29,7 @@ class ProductDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View{
         // Inflate the layout for this fragment
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
         binding.progressBar.isVisible = true
@@ -86,6 +87,11 @@ class ProductDetailsFragment : Fragment() {
             productCategoryValue.text = data.category
 
             setupProductImagesRecyclerView(data.images)
+
+            backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
         }
     }
 
@@ -99,5 +105,10 @@ class ProductDetailsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         productDetailViewModel.getProductDetailById()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        productDetailViewModel.getProductIdFromProductListFragment(-1)
     }
 }

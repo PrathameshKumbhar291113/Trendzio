@@ -30,11 +30,11 @@ class ProductDetailViewModel @Inject constructor(
 
     fun getProductDetailById(){
         getProductId.value?.let {
-            productDetailUseCase(it).onEach {
-                when(it){
+            productDetailUseCase(it).onEach { data->
+                when(data){
                     is NetworkResult.Loading ->{}
                     is NetworkResult.Success ->{
-                        _productDetail.postValue(it)
+                        _productDetail.postValue(data)
                     }
 
                     is NetworkResult.Error ->{}

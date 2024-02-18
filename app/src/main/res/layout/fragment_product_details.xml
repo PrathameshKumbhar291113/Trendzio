@@ -10,6 +10,7 @@
         android:id="@+id/progressBar"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:visibility="visible"
         app:cpb_background_progressbar_color="@color/white"
         app:cpb_background_progressbar_width="10dp"
         app:cpb_indeterminate_mode="true"
@@ -18,23 +19,37 @@
         app:cpb_progressbar_color_start="@color/primary_blue"
         app:cpb_progressbar_width="10dp"
         app:cpb_round_border="true"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/backButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/iv_back"
+        android:elevation="30dp"
+        android:background="@drawable/shape_floating_icon_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        tools:ignore="ContentDescription" />
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:scrollbars="none"
-        android:visibility="gone"
         android:fillViewport="true"
+        android:orientation="vertical"
         android:overScrollMode="never"
+        android:scrollbars="none"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -287,6 +302,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productImages"
                 app:layout_constraintVertical_bias="0.0"
+                tools:listitem="@layout/item_product_images"
                 app:layout_constraintVertical_chainStyle="packed" />
 
 
@@ -364,10 +380,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="serif"
                 android:paddingStart="4dp"
                 android:paddingEnd="2dp"
-                android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"

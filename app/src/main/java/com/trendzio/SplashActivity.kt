@@ -1,8 +1,8 @@
 package com.trendzio
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.trendzio.databinding.ActivitySplashBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(5000)
             start<HomeActivity>()
+            finish()
         }
     }
 }
